@@ -11,6 +11,7 @@ const app = express();
 
 app.use(cors({
   origin: 'https://asignador-de-tareas.vercel.app',
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials:true
 }));
 

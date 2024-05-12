@@ -4,8 +4,6 @@ import jwt from "jsonwebtoken";
 
 import "dotenv/config"
 
-
-
 import { createAccesToken } from "../libs/jwt.js";
 
 export const register = async (req, res) => {
@@ -46,7 +44,11 @@ export const login = async (req, res) => {
       return res.status(400).json(["Usuario o contraseña incorrectos"]);
 
     const token = await createAccesToken({ id: userFound._id });
-    res.cookie("token", token,{httpOnly: false});
+    res.cookie("token", token,{
+      httpOnly: true,
+      maxAge: 86400000, // 24 horas en milisegundos
+      sameSite: "none", // Esto es importante para las cookies de terceros (como en Vercel)
+  });
     console.log("loginBack" , token);
     res.json(userFound);
   } catch (error) {
