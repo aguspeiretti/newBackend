@@ -1,7 +1,10 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { TOKEN_SECRET } from "../config.js";
+
+import "dotenv/config"
+
+
 
 import { createAccesToken } from "../libs/jwt.js";
 
@@ -68,7 +71,7 @@ export const verifyToken = async (req, res) => {
   const { token } = req.cookies;
  console.log("verify" , token);
   if (!token) return res.status(401).json({ message: "unauthorized" });
-  jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+  jwt.verify(token,process.env.TOKEN_SECRET, async (err, user) => {
     if (err) return res.status(401).json({ message: "unauthorized" });
     const userFound = await User.findById(user.id);
     if (!userFound) return res.status(401).json({ message: "unauthorized" });
