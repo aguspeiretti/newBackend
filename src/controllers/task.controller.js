@@ -1,4 +1,4 @@
-import { authRequiered } from "../middlewares/validateToken.js";
+
 import Task from "../models/task.model.js";
 
 export const getTasks = async (req, res) => {
@@ -15,7 +15,7 @@ export const getUserTasks = async (req, res) => {
     const tasks = await Task.find({
       user: req.user.id,
     }).populate("user");
-    res.json(tasks);
+    res.json(tasks, req.cookies);
   } catch (error) {
     return res.status(404).json({ message: "task not found" });
   }

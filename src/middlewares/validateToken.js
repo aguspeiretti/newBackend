@@ -1,13 +1,16 @@
 import jwt from "jsonwebtoken";
-import { TOKEN_SECRET } from "../config.js";
 import { login } from "../controllers/auth.controller.js";
+
+import "dotenv/config"
+
+
 
 export const authRequiered = (req, res, next) => {
 try {
   const { token } = req.cookies;
-  console.log("Authreq" , token);
-  if (!token) return res.status(401).json({ message: "no token, denegado" });
-  jwt.verify(token, TOKEN_SECRET, (err, user) => {
+  
+  if (!token) return res.status(401).json({ message: "no token, denegado AQUI" });
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     if (err) res.status(403).json({ message: "invalid token" });
     console.log(req.cookies);
 
