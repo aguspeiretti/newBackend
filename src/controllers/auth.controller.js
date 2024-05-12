@@ -45,7 +45,7 @@ export const login = async (req, res) => {
 
     const token = await createAccesToken({ id: userFound._id });
     res.cookie("token", token,{
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 86400000, // 24 horas en milisegundos
       sameSite: "none", // Esto es importante para las cookies de terceros (como en Vercel)
   });
