@@ -10,7 +10,7 @@ import cors from "cors";
 const app = express();
 
 app.use(cors({
-  origin: 'https://asignador-de-tareas.vercel.app',
+  origin: 'https://taskfrontend-1.onrender.com',
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials:true
 }));
