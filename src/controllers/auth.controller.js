@@ -24,7 +24,7 @@ export const register = async (req, res) => {
     const userSaved = await newUser.save();
 
     const token = await createAccesToken({ id: userSaved._id });
-    res.cookie("token", token,{httpOnly: false , SameSite: 'none',domain: "https://taskfrontend-1.onrender.com"});
+    res.cookie("token", token,{httpOnly: false , SameSite: 'none'});
     res.json(userSaved);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -45,8 +45,7 @@ export const login = async (req, res) => {
 
     const token = await createAccesToken({ id: userFound._id });
     res.cookie("token", token,{
-      httpOnly: false , SameSite: 'none',domain: "https://taskfrontend-1.onrender.com"
-  });
+      httpOnly: false , SameSite: 'none'});
     console.log("loginBack" , token);
     res.json(userFound);
   } catch (error) {
