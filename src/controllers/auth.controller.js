@@ -24,7 +24,7 @@ export const register = async (req, res) => {
     const userSaved = await newUser.save();
 
     const token = await createAccesToken({ id: userSaved._id });
-    res.cookie("token", token,{httpOnly: false});
+    res.cookie("token", token,{httpOnly: false , SameSite: 'none',domain: "https://taskfrontend-1.onrender.com"});
     res.json(userSaved);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -45,9 +45,7 @@ export const login = async (req, res) => {
 
     const token = await createAccesToken({ id: userFound._id });
     res.cookie("token", token,{
-      httpOnly: false,
-      maxAge: 86400000, // 24 horas en milisegundos
-      sameSite: "none", // Esto es importante para las cookies de terceros (como en Vercel)
+      httpOnly: false , SameSite: 'none',domain: "https://taskfrontend-1.onrender.com"
   });
     console.log("loginBack" , token);
     res.json(userFound);
