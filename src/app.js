@@ -9,9 +9,11 @@ const app = express();
 
 const corsOptions = {
   origin: "https://taskfrontend-1.onrender.com",
-  methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
   credentials: true,
+  optionSuccessStatus: 200,
+  Headers: true,
   exposedHeaders: "Set-Cookie",
+  methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   allowedHeaders: [
     "Access-Control-Allow-Origin",
     "Content-Type",
