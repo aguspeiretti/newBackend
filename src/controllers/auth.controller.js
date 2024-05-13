@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import "dotenv/config"
+import "dotenv/config";
 
 import { createAccesToken } from "../libs/jwt.js";
 
@@ -24,7 +24,12 @@ export const register = async (req, res) => {
     const userSaved = await newUser.save();
 
     const token = await createAccesToken({ id: userSaved._id });
-    res.cookie("token", token,{httpOnly: false , SameSite: 'none'});
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 3600000, // 1 hora
+    });
     res.json(userSaved);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -44,9 +49,13 @@ export const login = async (req, res) => {
       return res.status(400).json(["Usuario o contraseña incorrectos"]);
 
     const token = await createAccesToken({ id: userFound._id });
-    res.cookie("token", token,{
-      httpOnly: false , SameSite: 'none'});
-    console.log("loginBack" , token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 3600000, // 1 hora
+    });
+    console.log("loginBack", token);
     res.json(userFound);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -68,9 +77,9 @@ export const profile = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
   const { token } = req.cookies;
- console.log("verify" , token);
+  console.log("verify", token);
   if (!token) return res.status(401).json({ message: "unauthorized" });
-  jwt.verify(token,process.env.TOKEN_SECRET, async (err, user) => {
+  jwt.verify(token, process.env.TOKEN_SECRET, async (err, user) => {
     if (err) return res.status(401).json({ message: "unauthorized" });
     const userFound = await User.findById(user.id);
     if (!userFound) return res.status(401).json({ message: "unauthorized" });
