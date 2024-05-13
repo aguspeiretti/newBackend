@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { login } from "../controllers/auth.controller.js";
+
 
 import "dotenv/config"
 

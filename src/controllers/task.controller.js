@@ -15,7 +15,7 @@ export const getUserTasks = async (req, res) => {
     const tasks = await Task.find({
       user: req.user.id,
     }).populate("user");
-    res.json(tasks, req.cookies);
+    res.json(tasks);
   } catch (error) {
     return res.status(404).json({ message: "task not found" });
   }
